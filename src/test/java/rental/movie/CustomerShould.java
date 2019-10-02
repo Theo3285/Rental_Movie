@@ -1,112 +1,113 @@
 package rental.movie;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class CustomerShould {
 
-    public static final int RENTED_ONE_DAY = 1;
-    public static final int RENTED_THREE_DAYS = 3;
-    public static final int RENTED_FOUR_DAYS = 4;
+    private static final int ONE_DAY = 1;
+    private static final int THREE_DAYS = 3;
+    private static final int FOUR_DAYS = 4;
 
-    public static final int NEW_RELEASE = 1;
-    public static final int REGULAR_MOVIE = 0;
-    public static final int CHILDREN = 2;
+    private static final int NEW_RELEASE = 1;
+    private static final int REGULAR_MOVIE = 0;
+    private static final int CHILDREN = 2;
 
-    public static final String MOVIE_TITLE = "movie";
-    public static final String CUSTOMER_NAME = "customer";
-
-    private Customer customer;
-    private Movie regularMovie;
-    private Movie newReleaseMovie;
-    private Movie childrenMovie;
-
-    @Before
-    public void setUp() throws Exception {
-        customer = new Customer(CUSTOMER_NAME);
-        regularMovie = new Movie(MOVIE_TITLE, REGULAR_MOVIE);
-        newReleaseMovie = new Movie(MOVIE_TITLE, NEW_RELEASE);
-        childrenMovie = new Movie(MOVIE_TITLE, CHILDREN);
-    }
+    private static final Movie BRASIL = new Movie("Brasil", REGULAR_MOVIE);
+    private static final Movie DRAGON = new Movie("Dragon", CHILDREN);
+    private static final Movie MEN_IN_BLACK_FOUR = new Movie("Men in black four", NEW_RELEASE);
+    private static final String PAUL = "Paul";
 
     @Test
     public void print_statement_for_regular_movie_rented_more_than_three_days() {
-        Rental rental = new Rental(regularMovie, RENTED_THREE_DAYS);
-        customer.addRental(rental);
+        Customer paul = CustomerBuilder.aCustomer()
+                .named(PAUL)
+                .rents(BRASIL)
+                .foraDurationOf(THREE_DAYS)
+                .build();
 
-        String expected = customer.statement();
+        String expected = paul.statement();
 
-        assertThat(expected, is("Rental Record for customer\n\tmovie\t3.5\nAmount owed is 3.5\nYou earned 1 frequent retner points"));
+        assertThat(expected, is("Rental Record for Paul\n\tBrasil\t3.5\nAmount owed is 3.5\nYou earned 1 frequent retner points"));
     }
 
     @Test
     public void print_statement_for_regular_movie_rented_less_than_three_days() {
-        Rental rental = new Rental(regularMovie, RENTED_ONE_DAY);
-        customer.addRental(rental);
+        Customer paul = CustomerBuilder.aCustomer()
+                .named(PAUL)
+                .rents(BRASIL)
+                .foraDurationOf(ONE_DAY)
+                .build();
 
-        String expected = customer.statement();
+        String expected = paul.statement();
 
-        assertThat(expected, is("Rental Record for customer\n\tmovie\t2.0\nAmount owed is 2.0\nYou earned 1 frequent retner points"));
+        assertThat(expected, is("Rental Record for Paul\n\tBrasil\t2.0\nAmount owed is 2.0\nYou earned 1 frequent retner points"));
     }
 
     @Test
     public void print_statement_for_new_release_movie_rented_only_one_day() {
-        Rental rental = new Rental(newReleaseMovie, RENTED_ONE_DAY);
-        customer.addRental(rental);
+        Customer paul = CustomerBuilder.aCustomer()
+                .named(PAUL)
+                .rents(MEN_IN_BLACK_FOUR)
+                .foraDurationOf(ONE_DAY)
+                .build();
 
-        String expected = customer.statement();
+        String expected = paul.statement();
 
-        assertThat(expected, is("Rental Record for customer\n\tmovie\t3.0\nAmount owed is 3.0\nYou earned 1 frequent retner points"));
+        assertThat(expected, is("Rental Record for Paul\n\tMen in black four\t3.0\nAmount owed is 3.0\nYou earned 1 frequent retner points"));
     }
 
     @Test
-    public void print_statement_for_new_release_movie_rented_more_than_three_days() {
-        Rental rental = new Rental(newReleaseMovie, RENTED_THREE_DAYS);
-        customer.addRental(rental);
+    public void print_statement_for_new_release_movie_rented_more_three_days() {
+        Customer paul = CustomerBuilder.aCustomer()
+                .named(PAUL)
+                .rents(MEN_IN_BLACK_FOUR)
+                .foraDurationOf(THREE_DAYS)
+                .build();
 
-        String expected = customer.statement();
+        String expected = paul.statement();
 
-        assertThat(expected, is("Rental Record for customer\n\tmovie\t9.0\nAmount owed is 9.0\nYou earned 2 frequent retner points"));
+        assertThat(expected, is("Rental Record for Paul\n\tMen in black four\t9.0\nAmount owed is 9.0\nYou earned 2 frequent retner points"));
     }
 
     @Test
     public void print_statement_for_children_movie_rented_four_days() {
-        Rental rental = new Rental(childrenMovie, RENTED_FOUR_DAYS);
-        customer.addRental(rental);
+        Customer paul = CustomerBuilder.aCustomer()
+                .named(PAUL)
+                .rents(DRAGON)
+                .foraDurationOf(FOUR_DAYS)
+                .build();
 
-        String expected = customer.statement();
+        String expected = paul.statement();
 
-        assertThat(expected, is("Rental Record for customer\n\tmovie\t3.0\nAmount owed is 3.0\nYou earned 1 frequent retner points"));
+        assertThat(expected, is("Rental Record for Paul\n\tDragon\t3.0\nAmount owed is 3.0\nYou earned 1 frequent retner points"));
     }
 
     @Test
     public void print_statement_for_children_movie_rented_one_day() {
-        Rental rental = new Rental(childrenMovie,RENTED_ONE_DAY);
-        customer.addRental(rental);
+        Customer paul = CustomerBuilder.aCustomer()
+                .named(PAUL)
+                .rents(DRAGON)
+                .foraDurationOf(ONE_DAY)
+                .build();
 
-        String expected = customer.statement();
+        String expected = paul.statement();
 
-        assertThat(expected, is("Rental Record for customer\n\tmovie\t1.5\nAmount owed is 1.5\nYou earned 1 frequent retner points"));
+        assertThat(expected, is("Rental Record for Paul\n\tDragon\t1.5\nAmount owed is 1.5\nYou earned 1 frequent retner points"));
     }
 
     @Test
-    public void print_statement_for_a_list_of_movies_rented_several_days() {
-        Rental childrenMovieRentedFourDays = new Rental(childrenMovie, RENTED_FOUR_DAYS);
-        customer.addRental(childrenMovieRentedFourDays);
-        Rental childrenMovieRentedOneDay = new Rental(childrenMovie,RENTED_ONE_DAY);
-        customer.addRental(childrenMovieRentedOneDay);
-        Rental newReleaseMovieRentedThreeDays = new Rental(newReleaseMovie, RENTED_THREE_DAYS);
-        customer.addRental(newReleaseMovieRentedThreeDays);
-        Rental regularMovieRentedThreeDays = new Rental(regularMovie, RENTED_THREE_DAYS);
-        customer.addRental(regularMovieRentedThreeDays);
-        Rental regularMovieRentedOneDay = new Rental(regularMovie, RENTED_ONE_DAY);
-        customer.addRental(regularMovieRentedOneDay);
+    public void print_statement_for_a_list_of_movies_rented_four_days() {
+        Customer paul = CustomerBuilder.aCustomer()
+                .named(PAUL)
+                .rents(BRASIL, DRAGON, MEN_IN_BLACK_FOUR)
+                .foraDurationOf(FOUR_DAYS)
+                .build();
 
-        String expected = customer.statement();
+        String expected = paul.statement();
 
-        assertThat(expected, is("Rental Record for customer\n\tmovie\t3.0\n\tmovie\t1.5\n\tmovie\t9.0\n\tmovie\t3.5\n\tmovie\t2.0\nAmount owed is 19.0\nYou earned 6 frequent retner points"));
+        assertThat(expected, is("Rental Record for Paul\n\tBrasil\t5.0\n\tDragon\t3.0\n\tMen in black four\t12.0\nAmount owed is 20.0\nYou earned 4 frequent retner points"));
     }
 }
