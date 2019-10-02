@@ -63,7 +63,7 @@ public class CustomerShould {
     }
 
     @Test
-    public void print_statement_for_new_release_movie_rented_more_three_days() {
+    public void print_statement_for_new_release_movie_rented_more_than_three_days() {
         Rental rental = new Rental(newReleaseMovie, RENTED_THREE_DAYS);
         customer.addRental(rental);
 
@@ -90,5 +90,23 @@ public class CustomerShould {
         String expected = customer.statement();
 
         assertThat(expected, is("Rental Record for customer\n\tmovie\t1.5\nAmount owed is 1.5\nYou earned 1 frequent retner points"));
+    }
+
+    @Test
+    public void print_statement_for_a_list_of_movies_rented_several_days() {
+        Rental childrenMovieRentedFourDays = new Rental(childrenMovie, RENTED_FOUR_DAYS);
+        customer.addRental(childrenMovieRentedFourDays);
+        Rental childrenMovieRentedOneDay = new Rental(childrenMovie,RENTED_ONE_DAY);
+        customer.addRental(childrenMovieRentedOneDay);
+        Rental newReleaseMovieRentedThreeDays = new Rental(newReleaseMovie, RENTED_THREE_DAYS);
+        customer.addRental(newReleaseMovieRentedThreeDays);
+        Rental regularMovieRentedThreeDays = new Rental(regularMovie, RENTED_THREE_DAYS);
+        customer.addRental(regularMovieRentedThreeDays);
+        Rental regularMovieRentedOneDay = new Rental(regularMovie, RENTED_ONE_DAY);
+        customer.addRental(regularMovieRentedOneDay);
+
+        String expected = customer.statement();
+
+        assertThat(expected, is("Rental Record for customer\n\tmovie\t3.0\n\tmovie\t1.5\n\tmovie\t9.0\n\tmovie\t3.5\n\tmovie\t2.0\nAmount owed is 19.0\nYou earned 6 frequent retner points"));
     }
 }
