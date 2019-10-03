@@ -11,8 +11,8 @@ public class CustomerShould {
     private static final int THREE_DAYS = 3;
     private static final int FOUR_DAYS = 4;
 
-    private static final int NEW_RELEASE = 1;
     private static final int REGULAR_MOVIE = 0;
+    private static final int NEW_RELEASE = 1;
     private static final int CHILDREN = 2;
 
     private static final Movie BRASIL = new Movie("Brasil", REGULAR_MOVIE);

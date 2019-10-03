@@ -13,7 +13,7 @@ public class Customer {
         _name = name;
     }
 
-    public void addRental(Rental arg) {
+    public void addRental(rental.movie.Rental arg) {
         _rentals.addElement(arg);
     }
 
@@ -28,7 +28,7 @@ public class Customer {
         String result = "Rental Record for " + getName() + "\n";
         while (rentals.hasMoreElements()) {
             double thisAmount = 0;
-            Rental each = (Rental) rentals.nextElement();
+            rental.movie.Rental each = (Rental) rentals.nextElement();
 
             // determine amounts for each line
             switch (each.getMovie().getPriceCode()) {

@@ -18,4 +18,8 @@ public class Rental {
     }
 
 
+    double amountFor() {
+        throw new UnsupportedOperationException();
+    }
+
 }
